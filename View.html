@@ -13,7 +13,21 @@
         <!-- Font Awesome -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     </head>
-  
+    <style>
+    .button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 20px;
+    cursor: pointer;
+    }
+
+    .button:hover {
+    background-color: green;
+    }
+    </style>
     <body>
 
          <!-- Main navigation -->
@@ -43,11 +57,11 @@
                         <div id="mainNavbar">
                             <ul class="flex-column mr-auto">
                                 <li class="nav-item">
-                                        <a class="nav-link" href="Home.html">Home <span class="sr-only">(current)</span></a>
+                                    <button onclick="location.href = 'Home.html';" id="HomeButton" class="button" >Home</button>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="Form.php">Make New Form <span class="sr-only">(current)</span></a>
+                                    <button onclick="location.href = 'Form.php';" id="FormButton" class="button" >Create New Reminder</button>
                                 </li>
 
                             </ul>
