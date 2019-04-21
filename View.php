@@ -90,10 +90,11 @@
                             <div class="sidebar-box">
                                 <h4>Search Reminders</h4>
                                 <form class="form-inline my-2 my-lg-0">
-                                    <input class="form-control mr-sm-2" type="text"  placeholder="User ID" aria-label="Search" maxlength="8">
+                                    <input class="form-control mr-sm-2" type="text" name="ID" placeholder="User ID" aria-label="Search" maxlength="8">
                                     <?php
                       			include_once("db.php");
-                      			$query = "select * from reminder order by date";
+					$IDinput=$_POST['ID']
+                      			$query = "select * from reminder where User_ID = $IDinput order by date";
                             		$stmt = $db->prepare($query);
                             		$stmt->execute();
                       			$count = $stmt->rowCount();
