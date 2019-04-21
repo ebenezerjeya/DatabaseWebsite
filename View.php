@@ -92,27 +92,27 @@
                                 <form class="form-inline my-2 my-lg-0">
                                     <input class="form-control mr-sm-2" type="text"  placeholder="User ID" aria-label="Search" maxlength="8">
                                     <?php
-                      								include_once("db.php");
-                      								$query = "select * from reminder order by date";
-                            							$stmt = $db->prepare($query);
-                            							$stmt->execute();
-                      								$count = $stmt->rowCount();
-                      								$results = $stmt->fetchAll();
-                      								if ($count > 0) {
-                      									foreach ($results as $row) {
-                      										$id = $row['Reminder_ID'];
+                      			include_once("db.php");
+                      			$query = "select * from reminder order by date";
+                            		$stmt = $db->prepare($query);
+                            		$stmt->execute();
+                      			$count = $stmt->rowCount();
+                      			$results = $stmt->fetchAll();
+                      			if ($count > 0) {
+                      			  foreach ($results as $row) {
+                      			  $id = $row['Reminder_ID'];
                                           $uid = $row['User_ID'];
                                           $title = $row['Reminder_title'];
                                           $descrip = $row['Description'];
                                           $date = $row['Date'];
                                           $time = $row['Time'];
                                           $all_day = $row['All_day'];
-                      										echo '<option style="color: #000; font-weight: bold;" value="'.$id.'">'.$uid.'</option>';
-                      									}
-                      								} else {
-                      									echo '<option value="0">no department available</option>';
-                      								}
-                      							?>
+                      			  echo '<option style="color: #000; font-weight: bold;" value="'.$uid.'">'.$title.'</option>';
+                      			  }
+                      			} else {
+                      				echo '<option value="0">User ID does not exist</option>';
+                      			}
+                      		  ?>
                                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                                 </form>
                             </div>
