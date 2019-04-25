@@ -21,34 +21,32 @@
 
     <?php
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        include_once("db.php");
-        $dbname = `user`;
-        $query = "select * from $dbname where User_id = ?";
-        $stmt = $db->prepare($query);
+        include_once("dbconnection_pdo.php");
+        $query = 'select * from `user` where User_ID = $(\'#userID\')';
+        $stmt = $DBH->prepare($query);
         $stmt->bindParam(1, $_POST['i_id'], PDO::PARAM_STR);
         $stmt->execute();
         $count = $stmt->rowCount();
         if($count > 0) {
             $query = "insert into reminder (User_id, reminder_title, description, `time`, `date`, all_day) values (?,?,?,?,?)";
-            $stmt = $db->prepare($query);
+            $stmt = $DBH->prepare($query);
             $stmt->bindParam(1, $_POST['User_id'], PDO::PARAM_STR);
             $stmt->bindParam(2, $_POST['reminder_title'], PDO::PARAM_STR);
             $stmt->bindParam(3, $_POST['description'], PDO::PARAM_STR);
             $stmt->bindParam(4, $_POST['`time`'], PDO::PARAM_STR);
             $stmt->bindParam(5, $_POST['`date`'], PDO::PARAM_STR);
-            $stmt->bindParam(6, $_POST['`all_day`'], PDO::PARAM_BOOL);
             $stmt->execute();
             header('Location: find_instructor.php');
         } else {
             // insert a new instructor
-            $query = "select * from `user` where id = ?";
-            $stmt = $db->prepare($query);
+            $query = "select * from `user` where User_ID = ?";
+            $stmt = $DBH->prepare($query);
             $stmt->bindParam(1, $_POST['i_dept'], PDO::PARAM_STR);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $dname = $row['`User`'];
             $query = "insert into `user` (User_id, First_name, Last_name, email) values (?,?,?,?)";
-            $stmt = $db->prepare($query);
+            $stmt = $DBH->prepare($query);
             $stmt->bindParam(1, $_POST['User_id'], PDO::PARAM_STR);
             $stmt->bindParam(2, $_POST['First_name'], PDO::PARAM_STR);
             $stmt->bindParam(3, $_POST['Last_name'], PDO::PARAM_STR);
@@ -61,9 +59,8 @@
             $stmt->bindParam(3, $_POST['description'], PDO::PARAM_STR);
             $stmt->bindParam(4, $_POST['`time`'], PDO::PARAM_STR);
             $stmt->bindParam(5, $_POST['`date`'], PDO::PARAM_STR);
-            $stmt->bindParam(6, $_POST['`all_day`'], PDO::PARAM_BOOL);
             $stmt->execute();
-            header('Location: find_instructor.php');
+            header('Location: View.php');
         }
     }
     ?>;
