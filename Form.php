@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 	<head>
         <title>Form-Create New Reminder</title>
@@ -18,6 +18,55 @@
         ?>
     </head>
     <body>
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        include_once("db.php");
+        $dbname = `user`;
+        $query = "select * from $dbname where User_id = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $_POST['i_id'], PDO::PARAM_STR);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        if($count > 0) {
+            $query = "insert into reminder (User_id, reminder_title, description, `time`, `date`, all_day) values (?,?,?,?,?)";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(1, $_POST['User_id'], PDO::PARAM_STR);
+            $stmt->bindParam(2, $_POST['reminder_title'], PDO::PARAM_STR);
+            $stmt->bindParam(3, $_POST['description'], PDO::PARAM_STR);
+            $stmt->bindParam(4, $_POST['`time`'], PDO::PARAM_STR);
+            $stmt->bindParam(5, $_POST['`date`'], PDO::PARAM_STR);
+            $stmt->bindParam(6, $_POST['`all_day`'], PDO::PARAM_BOOL);
+            $stmt->execute();
+            header('Location: find_instructor.php');
+        } else {
+            // insert a new instructor
+            $query = "select * from `user` where id = ?";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(1, $_POST['i_dept'], PDO::PARAM_STR);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $dname = $row['`User`'];
+            $query = "insert into `user` (User_id, First_name, Last_name, email) values (?,?,?,?)";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(1, $_POST['User_id'], PDO::PARAM_STR);
+            $stmt->bindParam(2, $_POST['First_name'], PDO::PARAM_STR);
+            $stmt->bindParam(3, $_POST['Last_name'], PDO::PARAM_STR);
+            $stmt->bindParam(4, $_POST['email'], PDO::PARAM_STR);
+            $stmt->execute();
+            $query = "insert into reminder (User_id, reminder_title, description, `time`, `date`, all_day) values (?,?,?,?,?)";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(1, $_POST['User_id'], PDO::PARAM_STR);
+            $stmt->bindParam(2, $_POST['reminder_title'], PDO::PARAM_STR);
+            $stmt->bindParam(3, $_POST['description'], PDO::PARAM_STR);
+            $stmt->bindParam(4, $_POST['`time`'], PDO::PARAM_STR);
+            $stmt->bindParam(5, $_POST['`date`'], PDO::PARAM_STR);
+            $stmt->bindParam(6, $_POST['`all_day`'], PDO::PARAM_BOOL);
+            $stmt->execute();
+            header('Location: find_instructor.php');
+        }
+    }
+    ?>;
         <div id="content">
             <div id="content-wrapper">
                 
@@ -74,48 +123,7 @@
                                         <textarea class="form-control" id="reminderDescription" rows="3" maxlength="100"></textarea>
                                     </div>
                                     <button type="submit" onclick="submitData" class="btn btn-primary">Submit</button>
-                                        
-                                        <script>
-                                            function submitData() {
-                                                <?php
-                                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                                                    include_once("db.php");
-                                                    /*$query = "select * from `user` where User_id = ?";
-                                                    $stmt = $db->prepare($query);
-                                                    $stmt->bindParam(1, $_POST['i_id'], PDO::PARAM_STR);
-                                                    $stmt->execute();
-                                                    $count = $stmt->rowCount();
-                                                    if($count > 0) {
 
-                                                    } else {*/
-                                                        // insert a new instructor
-                                                        $query = "select * from department where id = ?";
-                                                        $stmt = $db->prepare($query);
-                                                        $stmt->bindParam(1, $_POST['i_dept'], PDO::PARAM_STR);
-                                                        $stmt->execute();
-                                                        $row   = $stmt->fetch(PDO::FETCH_ASSOC);
-                                                        $dname = $row['`User`'];
-                                                        $query = "insert into `user` (User_id, First_name, Last_name, email) values (?,?,?,?)";
-                                                        $stmt = $db->prepare($query);
-                                                        $stmt->bindParam(1, $_POST['User_id'], PDO::PARAM_STR);
-                                                        $stmt->bindParam(2, $_POST['First_name'], PDO::PARAM_STR);
-                                                        $stmt->bindParam(3, $_POST['Last_name'], PDO::PARAM_STR);
-                                                        $stmt->bindParam(4, $_POST['email'], PDO::PARAM_STR);
-                                                        $stmt->execute();
-                                                        $query = "insert into reminder (reminder_title, description, `time`, `date`, all_day) values (?,?,?,?,?)";
-                                                        $stmt = $db->prepare($query);
-                                                        $stmt->bindParam(1, $_POST['reminder_title'], PDO::PARAM_STR);
-                                                        $stmt->bindParam(2, $_POST['description'], PDO::PARAM_STR);
-                                                        $stmt->bindParam(3, $_POST['`time`'], PDO::PARAM_STR);
-                                                        $stmt->bindParam(4, $_POST['`date`'], PDO::PARAM_STR);
-                                                        $stmt->bindParam(5, $_POST['`all_day`'], PDO::PARAM_BOOL);
-                                                        $stmt->execute();
-                                                        header('Location: find_instructor.php');
-
-                                                }
-                                                ?>
-                                            }
-                                        </script>
                                 </fieldset>
                                 
 
