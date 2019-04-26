@@ -1,9 +1,9 @@
 <?php
-	include_once("dbconnection_pdo.php");
+	include_once("db.php");
 	session_start();
 	if (isset($_POST["User_ID"]) && $_POST["User_ID"] != "0") {
 		$id = $_POST["User_ID"];
-		$query = "select * from reminder where User_ID = $id order by date";
+		$query = "select * from reminder where User_ID = ? order by date";
     $stmt = $db->prepare($query);
     $stmt->bindParam(1, $id, PDO::PARAM_INT);
     $stmt->execute();
@@ -24,7 +24,7 @@
       echo '<div class="col-3 text-right">'.$row['Date'].'</div>';
 			echo '</div>';
 		}
-		$query = "select * from `user` where User_ID = $id";
+		$query = "select * from `user` where User_ID = ?";
     $stmt = $db->prepare($query);
     $stmt->bindParam(1, $id, PDO::PARAM_INT);
     $stmt->execute();
