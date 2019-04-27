@@ -55,28 +55,14 @@
         ?>
          <!-- Main navigation -->
         <div id="sidebar">
-
-            <div class="navbar-expand-md navbar-dark">
-                <!-- Mobile menu toggle and header -->
-                <div class="mobile-header-controls">
-                    <a class="navbar-brand d-md-none d-lg-none d-xl-none" href="#"><span>my</span>website</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#SidebarContent" aria-controls="SidebarContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </div>
-
-                <div id="SidebarContent" class="collapse flex-column navbar-collapse">
-
-
-
                     <!-- Main navigation items -->
                     <nav class="navbar navbar-dark">
                         <div id="mainNavbar">
-                            <ul class="flex-column mr-auto">
+                            <ul>
                                 <li class="nav-item">
-                                    <button onclick="location.href = 'Home.html';" id="HomeButton" class="button" >Home</button>
+                                    <button onclick="location.href = 'Home.html';" id="HomeButton" class="button" >Back to Home</button>
                                 </li>
-
+                                    <br>
                                 <li class="nav-item">
                                     <button onclick="location.href = 'Form.php';" id="FormButton" class="button" >Create New Reminder</button>
                                 </li>
@@ -98,41 +84,46 @@
 
                         <!-- Sidebar -->
                         <aside class="col-md-4">
-                            <div class="sidebar-box">
-
-                            </div>
-
                             <div>
                                 <h4>Search Reminders</h4>
                                 <form action="view.php" method="post">
-                                        <input type="text" class="form-control" id="ID" name="ID" maxlength="8">
+                                        <input type="text" class="form-control" id="ID" name="ID" placeholder="User ID" maxlength="8">
 
-                                    <button id="search" name="search" type="submit" class="button">Search</button>
+                                    <button id="search" name="search" onclick="" type="submit" class="button">Search</button>
                                 </form>
                             </div>
-
-                            <div class="sidebar-box">
-
-                            </div>
                         </aside>
-
+                        <!--display the table-->
                         <!-- Main content -->
-                        <div class="col-md-8">
 
-
-                       </div>
                     </div>
                 </main>
 
 
                 <!-- Footer -->
                <div class="container-fluid footer-container" id="area_container" name="area_container">
-                    <footer class="footer">
-                        <div class="footer-lists">
+                        <aside class="col-md-3">
+                        <div>
+                        <form action="view.php" method="post">
+                            <label for="delete">Delete Reminder</label>
+                            <input type="text" class="form-control" id="delete" name="delete" placeholder="Reminder ID" maxlength="8">
+
+                            <button name="delete" type="submit" class="button" >Delete Reminder</button>
+
+                        </form>
+                        <br>
+                        <form action="UpdateForm.php" method="post">
+                            <label for="update">Update Reminder</label>
+                            <input type="text" class="form-control" id="update" placeholder="Reminder ID" name="update" maxlength="8">
+
+                            <button name="update" type="submit" class="button" >Update Reminder</button>
+                        </form>
+                        </div>
+                    </aside>
                             <!-- Unsure of what to change, etc: "#search" and '#dept'  -->
                             <script type="text/javascript">
                                 $('#search').click(function(){
-                                    var User_ID = $('#search').find(":selected").val();
+                                    var User_ID = $('#search').val();
                                     $.ajax({
                                         type:'POST',
                                         url:'find_user_ajax.php',
@@ -144,9 +135,6 @@
                                     });
                                 });
                             </script>
-                        </div>
-
-                    </footer>
                 </div>
             </div>
         </div>

@@ -1,8 +1,8 @@
 <?php
 	include_once("db.php");
 	session_start();
-	if (isset($_POST["User_ID"]) && $_POST["User_ID"] != "0") {
-		$id = $_POST["User_ID"];
+	if (isset($_POST['User_ID']) && $_POST["User_ID"] != "0") {
+		$id = $_POST['User_ID'];
 		$query = "select * from reminder where User_ID = ? order by date";
     $stmt = $db->prepare($query);
     $stmt->bindParam(1, $id, PDO::PARAM_INT);

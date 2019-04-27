@@ -17,6 +17,20 @@
         $_SESSION['errorMessage']="";
         ?>
     </head>
+    <style>
+        .button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 25px;
+            text-align: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: green;
+        }
+    </style>
     <body>
 
     <?php
@@ -64,6 +78,25 @@
         }
     }
     ?>;
+    <div id="sidebar">
+        <!-- Main navigation items -->
+        <nav class="navbar navbar-dark">
+            <div id="mainNavbar">
+                <ul>
+                    <li class="nav-item">
+                        <button onclick="location.href = 'Home.html';" id="HomeButton" class="button" >Back to Home</button>
+                    </li>
+                    <br>
+                    <li class="nav-item">
+                        <button onclick="location.href = 'View.php';" id="ViewButton" class="button" >Go to View Instead</button>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+    </div>
+    </div>
         <div id="content">
             <div id="content-wrapper">
                 
