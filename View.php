@@ -62,7 +62,7 @@
                             <div>
                                 <h4>Search Reminders</h4>
                                 <form action="View.php" method="post">
-                                        <input type="text" class="form-control" id="ID" name="ID" placeholder="User ID" maxlength="8">
+                                        <input type="text" class="form-control" id="User_ID" name="User_ID" placeholder="User ID" maxlength="8">
 
                                     <button id="search" name="search" type="button" class="button">Search</button>
                                 </form>
@@ -112,7 +112,7 @@
 
         <script type="text/javascript">
         $('#search').click(function(){
-            var User_ID = $('#search').val();
+            var User_ID = $('#User_ID').val();
             $.ajax({
                 type:'POST',
                 url:'find_user_ajax.php',

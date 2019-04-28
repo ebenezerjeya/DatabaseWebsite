@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include_once("db.php");
     $query = "select * from reminder where Reminder_ID = ?";
     $stmt = $db->prepare($query);
-    $stmt->bindParam(1, $_POST['Reminder_ID'], PDO::PARAM_STR);
+    $stmt->bindParam(1, $_POST['Reminder_ID'], PDO::PARAM_INT);
     $stmt->execute();
     $count = $stmt->rowCount();
     if($count > 0) {
