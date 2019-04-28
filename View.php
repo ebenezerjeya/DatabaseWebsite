@@ -28,31 +28,6 @@
     }
     </style>
     <body>
-    <?php
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        include_once("db.php");
-        $query = "select * from reminder where User_ID =? order by date";
-        $stmt = $db->prepare($query);
-        $stmt->bindParam(1, $_POST['ID'], PDO::PARAM_STR);
-        $stmt->execute();
-        $count = $stmt->rowCount();
-        $results = $stmt->fetchAll();
-        if ($count > 0) {
-            foreach ($results as $row) {
-                $id = $row['Reminder_ID'];
-                $uid = $row['User_ID'];
-                $title = $row['Reminder_title'];
-                $descrip = $row['Description'];
-                $date = $row['Date'];
-                $time = $row['Time'];
-
-                echo '<option style="color: #000; font-weight: bold;" value="' . $uid . '">' . $title . '</option>';
-            }
-        } else {
-            echo '<option value="0">User ID does not exist</option>';
-        }
-    }
-        ?>
          <!-- Main navigation -->
         <div id="sidebar">
                     <!-- Main navigation items -->
@@ -86,14 +61,14 @@
                         <aside class="col-md-4">
                             <div>
                                 <h4>Search Reminders</h4>
-                                <form action="view.php" method="post">
+                                <form action="View.php" method="post">
                                         <input type="text" class="form-control" id="ID" name="ID" placeholder="User ID" maxlength="8">
 
-                                    <button id="search" name="search" onclick="" type="submit" class="button">Search</button>
+                                    <button id="search" name="search" type="button" class="button">Search</button>
                                 </form>
                             </div>
                         </aside>
-                        <!--display the table-->
+
                         <!-- Main content -->
 
                     </div>
@@ -101,7 +76,10 @@
 
 
                 <!-- Footer -->
-               <div class="container-fluid footer-container" id="area_container" name="area_container">
+
+                <div class="container" id="tabledisplay" name="tabledisplay"></div>
+
+               <div class="container-fluid footer-container">
                         <aside class="col-md-3">
                         <div>
                         <form action="view.php" method="post">
@@ -120,21 +98,6 @@
                         </form>
                         </div>
                     </aside>
-                            <!-- Unsure of what to change, etc: "#search" and '#dept'  -->
-                            <script type="text/javascript">
-                                $('#search').click(function(){
-                                    var User_ID = $('#search').val();
-                                    $.ajax({
-                                        type:'POST',
-                                        url:'find_user_ajax.php',
-                                        data:'User_ID='+User_ID,
-                                        success:function(html){
-                                            $('#area_container').show();
-                                            $('#area_container').html(html);
-                                        }
-                                    });
-                                });
-                            </script>
                 </div>
             </div>
         </div>
@@ -147,5 +110,19 @@
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
         </script>
 
+        <script type="text/javascript">
+        $('#search').click(function(){
+            var User_ID = $('#search').val();
+            $.ajax({
+                type:'POST',
+                url:'find_user_ajax.php',
+                data:'User_ID='+User_ID,
+                success:function(html){
+                    $('#tabledisplay').show();
+                    $('#tabledisplay').html(html);
+                }
+            });
+        });
+    </script>
     </body>
 </html>
