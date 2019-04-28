@@ -28,6 +28,24 @@
     }
     </style>
     <body>
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        session_start();
+        include_once("db.php");
+        $query = "select * from reminder where Reminder_ID = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $_POST['reminder_ID'], PDO::PARAM_INT);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        if ($count > 0) {
+            $query = "delete from reminder where Reminder_ID = ?";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(1, $_POST['reminder_ID'], PDO::PARAM_INT);
+            $stmt->execute();
+            echo "Deletion done";
+        }
+    }
+    ?>
          <!-- Main navigation -->
         <div id="sidebar">
                     <!-- Main navigation items -->
@@ -61,10 +79,11 @@
                         <aside class="col-md-4">
                             <div>
                                 <h4>Search Reminders</h4>
-                                <form action="View.php" method="post">
+                                <form>
                                         <input type="text" class="form-control" id="User_ID" name="User_ID" placeholder="User ID" maxlength="8">
 
                                     <button id="search" name="search" type="button" class="button">Search</button>
+
                                 </form>
                             </div>
                         </aside>
@@ -90,7 +109,7 @@
 
                         </form>
                         <br>
-                        <form action="UpdateForm.php" method="post">
+                        <form method="post">
                             <label for="update">Update Reminder</label>
                             <input type="text" class="form-control" id="update" placeholder="Reminder ID" name="update" maxlength="8">
 
@@ -124,5 +143,6 @@
             });
         });
     </script>
+
     </body>
 </html>
