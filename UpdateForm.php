@@ -34,27 +34,50 @@
 <body>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    include_once("db.php");
-    $query = "select * from reminder where Reminder_ID = ?";
+$reminder = isset($_SESSION['updateButton']);
+include_once("db.php");
+$query = "select * from reminder where Reminder_ID = ?";
+$stmt = $db->prepare($query);
+$stmt->bindParam(1, $_POST[$reminder], PDO::PARAM_INT);
+$stmt->execute();
+$count = $stmt->rowCount();
+if ($count > 0) {
+    $query = "select * from reminder where User_ID = ? order by date";
     $stmt = $db->prepare($query);
-    $stmt->bindParam(1, $_POST['Reminder_ID'], PDO::PARAM_INT);
+    $stmt->bindParam(1, $reminder, PDO::PARAM_STR);
     $stmt->execute();
-    $count = $stmt->rowCount();
-    if($count > 0) {
+    $results = $stmt->fetchall();
+    $username = $results['User_ID'];
+    $title = $results['Reminder_title'];
+    $description = $results['Description'];
+    $query = "select * from `user` where User_ID = ? order by date";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(1, $reminder, PDO::PARAM_STR);
+    $stmt->execute();
+    $results = $stmt->fetchall();
+    $firstname = $results['First_Name'];
+    $lastname = $results['Last_Name'];
+    $email = $results['Email'];
+} else {
+    header('Location: Form.php');
+}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if($_POST['updateConfirm']) {
+        include_once ("db.php");
         $td=$_POST['date'];
         $td=date('Y-m-d',strtotime($td));
-        $query = "insert into reminder (User_id, reminder_title, description, `Date`) values (?,?,?,?)";
+        $query = "Update reminder set User_ID = ? Reminder_title = ?, Description = ?, `Date` = ? WHERE Reminder_ID = $reminder";
         $stmt = $db->prepare($query);
         $stmt->bindParam(1, $_POST['userID'], PDO::PARAM_STR);
         $stmt->bindParam(2, $_POST['reminderTitle'], PDO::PARAM_STR);
         $stmt->bindParam(3, $_POST['reminderDescription'], PDO::PARAM_STR);
-        #mm "/" dd "/" y
         #$stmt->bindParam(4, $_POST['`time`'], PDO::PARAM_STR);
         $stmt->bindParam(4, $td, PDO::PARAM_STR);
-
         $stmt->execute();
         header('Location: View.php');
+    }
+    else{
+
     }
 }
 ?>;
@@ -84,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="jumbotron-wrap">
             <div class="container-fluid">
                 <div class="jumbotron jumbotron-narrow static-slider">
-                    <h1 class="text-center">Make New Reminder</h1>
+                    <h1 class="text-center">Update Reminder</h1>
                 </div>
             </div>
         </div>
@@ -100,44 +123,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                         <fieldset>
 
-                            <form action="form.php" method="post">
+                            <form action="View.php" method="post">
                                 <div class="form-group">
                                     <label for="userID">User ID</label>
-                                    <input type="text" class="form-control" id="userID" name="userID" maxlength="8">
+                                    <input type="text" class="form-control" id="userID" name="userID" <?php echo $username?> maxlength="8" >
                                 </div>
 
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
-                                    <input type="text" class="form-control" name="firstName" id="firstName">
+                                    <input type="text" class="form-control" name="firstName" <?php echo $firstname?> id="firstName">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="lastName">Last Name</label>
-                                    <input type="text" class="form-control" name="lastName" id="lastName">
+                                    <input type="text" class="form-control" name="lastName" <?php echo $lastname?> id="lastName">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail" >Email address</label>
-                                    <input type="email" class="form-control" id="exampleInputEmail" name="exampleInputEmail" aria-describeDBHy="emailHelp">
+                                    <input type="email" class="form-control" id="exampleInputEmail" <?php echo $email?> name="exampleInputEmail" aria-describeDBHy="emailHelp">
                                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                                 </div>
 
 
                                 <div class="form-group">
                                     <label for="reminderTitle">Reminder Title</label>
-                                    <textarea class="form-control" id="reminderTitle" name="reminderTitle" rows="1" maxlength="35"></textarea>
+                                    <textarea class="form-control" id="reminderTitle" name="reminderTitle" <?php echo $title?> rows="1" maxlength="35"></textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="reminderDescription">Description</label>
-                                    <textarea class="form-control" id="reminderDescription" name="reminderDescription" rows="3" maxlength="100"></textarea>
+                                    <textarea class="form-control" id="reminderDescription" name="reminderDescription" <?php echo $description?> rows="3" maxlength="100"></textarea>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="date" >Date</label>
+                                    <label for="date" >Verify Date</label>
                                     <input type="date" class="form-control" id="date" name="date">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button></form>
+                                <button type="submit" name = "updateConfirm" class="btn btn-primary">Submit</button></form>
 
                         </fieldset>
 
