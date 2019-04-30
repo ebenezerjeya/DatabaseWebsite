@@ -30,27 +30,29 @@
 <body>
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if(isset($_POST['update'])){
+    if(isset($_POST['updateButton'])){
         session_start();
-            $_SESSION['updateButton'] = $_POST['updateButton'];
+            $_SESSION['updateVar'] = $_POST['updateButton'];
+            header("Location: UpdateForm.php");
     }
-    elseif(isset($_POST['delete'])){
-            include_once("db.php");
-            $query = "select * from reminder where Reminder_ID = ?";
+    elseif(isset($_POST['delete'])) {
+        session_start();
+        include_once("db.php");
+        $query = "select * from reminder where Reminder_ID = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $_POST['delete'], PDO::PARAM_INT);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+        if ($count > 0) {
+            $query = "delete from reminder where Reminder_ID = ?";
             $stmt = $db->prepare($query);
             $stmt->bindParam(1, $_POST['delete'], PDO::PARAM_INT);
             $stmt->execute();
-            $count = $stmt->rowCount();
-            if ($count > 0) {
-                $query = "delete from reminder where Reminder_ID = ?";
-                $stmt = $db->prepare($query);
-                $stmt->bindParam(1, $_POST['delete'], PDO::PARAM_INT);
-                $stmt->execute();
-                echo "Deletion done";
-            }else{
-                echo "reminderID not found";
-            }
+            echo "Deletion done";
+        } else {
+            echo "reminderID not found";
         }
+    }
 }
 ?>;
 <!-- Main navigation -->
@@ -111,15 +113,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="delete">Delete Reminder</label>
                         <input type="text" class="form-control" id="delete" name="delete" placeholder="Reminder ID" maxlength="8">
 
-                        <button type="submit" class="button" name="delete" value="delete">Delete Reminder</button>
+                        <button type="submit" class="button" value="delete">Delete Reminder</button>
 
                     </form>
                     <br>
-                    <form action="UpdateForm.php" method="post">
+                    <form method="post">
                         <label for="update">Update Reminder</label>
-                        <input type="text" class="form-control" id="update" placeholder="Reminder ID" name="updateButton" maxlength="8">
+                        <input type="text" class="form-control" id="updateButton" placeholder="Reminder ID" name="updateButton" maxlength="8">
 
-                        <button type="submit" class="button" value="updateButton">Update Reminder</button>
+                        <button type="submit" class="button">Update Reminder</button>
                     </form>
                 </div>
             </aside>
