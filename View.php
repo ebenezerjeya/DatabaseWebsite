@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-?>;
+?>
 <!-- Main navigation -->
 <div id="sidebar">
     <!-- Main navigation items -->
