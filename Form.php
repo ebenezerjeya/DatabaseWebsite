@@ -44,14 +44,15 @@
         if($count > 0) {
             $td=$_POST['date'];
             $td=date('Y-m-d',strtotime($td));
-            $query = "insert into reminder (User_id, reminder_title, description, `Date`) values (?,?,?,?)";
+            $tc=$_POST['time'];
+            $tc=date('G:i:s', strtotime($tc));
+            $query = "insert into reminder (User_id, reminder_title, description,`Time`, `Date`) values (?,?,?,?,?)";
             $stmt = $db->prepare($query);
             $stmt->bindParam(1, $_POST['userID'], PDO::PARAM_STR);
             $stmt->bindParam(2, $_POST['reminderTitle'], PDO::PARAM_STR);
             $stmt->bindParam(3, $_POST['reminderDescription'], PDO::PARAM_STR);
-            #mm "/" dd "/" y
-            #$stmt->bindParam(4, $_POST['`time`'], PDO::PARAM_STR);
-            $stmt->bindParam(4, $td, PDO::PARAM_STR);
+            $stmt->bindParam(4, $tc, PDO::PARAM_STR);
+            $stmt->bindParam(5, $td, PDO::PARAM_STR);
 
             $stmt->execute();
             header('Location: View.php');
@@ -66,13 +67,15 @@
             $stmt->execute();
             $td=$_POST['date'];
             $td=date('Y-m-d',strtotime($td));
-            $query = "insert into reminder (User_ID, reminder_title, description, `Date`) values (?,?,?,?)";
+            $tc=$_POST['time'];
+            $tc=date('G:i:s', strtotime($tc));
+            $query = "insert into reminder (User_ID, reminder_title, description,`Time`, `Date`) values (?,?,?,?,?)";
             $stmt = $db->prepare($query);
             $stmt->bindParam(1, $_POST['userID'], PDO::PARAM_STR);
             $stmt->bindParam(2, $_POST['reminderTitle'], PDO::PARAM_STR);
             $stmt->bindParam(3, $_POST['reminderDescription'], PDO::PARAM_STR);
-            #$stmt->bindParam(4, $_POST['`time`'], PDO::PARAM_STR);
-            $stmt->bindParam(4, $td, PDO::PARAM_STR);
+            $stmt->bindParam(4, $tc, PDO::PARAM_STR);
+            $stmt->bindParam(5, $td, PDO::PARAM_STR);
             $stmt->execute();
             header('Location: View.php');
         }
@@ -153,6 +156,11 @@
                                         <textarea class="form-control" id="reminderDescription" name="reminderDescription" rows="3" maxlength="100"></textarea>
                                     </div>
 
+                                        <div class ="form-group">
+                                            <label for="time">Time</label>
+                                            <input type="text" class="form-control" name="time">
+                                            <small id="timehelp" class="form-text text-muted">Enter HH:MM. This uses 24-Hour format</small>
+                                        </div>
                                         <div class="form-group">
                                             <label for="date" >Date</label>
                                             <input type="date" class="form-control" id="date" name="date">

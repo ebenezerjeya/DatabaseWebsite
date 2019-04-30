@@ -51,6 +51,8 @@ if ($count > 0) {
         $username = $row['User_ID'];
         $title = $row['Reminder_title'];
         $description = $row['Description'];
+        $time = $row['Time'];
+        $date =$row['Date'];
     }
     $query = "select * from `user` where User_ID = ?";
     $stmt = $db->prepare($query);
@@ -72,13 +74,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             include_once("db.php");
             $td = $_POST['date'];
             $td = date('Y-m-d', strtotime($td));
-            $query = "UPDATE reminder SET Reminder_title = ?, Description = ?, `Date` = ? WHERE Reminder_ID = ?";
+            $tc=$_POST['time'];
+            $tc=date('G:i:s', strtotime($tc));
+            $query = "UPDATE reminder SET Reminder_title = ?, Description = ?, `Date` = ?, `Time`=? WHERE Reminder_ID = ?";
             $stmt = $db->prepare($query);
             $stmt->bindParam(1, $_POST['reminderTitle'], PDO::PARAM_STR);
             $stmt->bindParam(2, $_POST['reminderDescription'], PDO::PARAM_STR);
-            #$stmt->bindParam(4, $_POST['`time`'], PDO::PARAM_STR);
             $stmt->bindParam(3, $td, PDO::PARAM_STR);
             $stmt->bindParam(4, $reminder, PDO::PARAM_INT);
+            $stmt->bindParam(5, $tc, PDO::PARAM_STR);
             $stmt->execute();
             header('Location: View.php');
         }
@@ -159,9 +163,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     <textarea class="form-control" id="reminderDescription" name="reminderDescription" placeholder=" <?php echo $description?>" rows="3" maxlength="100"></textarea>
                                 </div>
 
+                                <div class ="form-group">
+                                    <label for="time">Time</label>
+                                    <input type="text" class="form-control" placeholder=" <?php echo $time?>" name="time">
+                                    <small id="timehelp" class="form-text text-muted">Enter HH:MM. This uses 24-Hour format</small>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="date" >Verify Date</label>
-                                    <input type="date" class="form-control" id="date" name="date">
+                                    <input type="date" class="form-control" placeholder=" <?php echo $date?>" id="date" name="date">
                                 </div>
                                 <button type="submit" class="btn btn-primary" name="updateConfirm">Submit</button></form>
 

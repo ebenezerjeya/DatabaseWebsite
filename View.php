@@ -48,9 +48,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt = $db->prepare($query);
             $stmt->bindParam(1, $_POST['delete'], PDO::PARAM_INT);
             $stmt->execute();
-            echo "Deletion done";
+            $message = "Deletion complete";
+            echo "<script type='text/javascript'>alert('$message');</script>";
         } else {
-            echo "reminderID not found";
+            $message = "Reminder ID not found";
+            echo "<script type='text/javascript'>alert('$message');</script>";
         }
     }
 }
