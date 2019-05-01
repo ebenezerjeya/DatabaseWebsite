@@ -16,8 +16,8 @@
 		echo "<br>";
 		echo '<div class="row">';
 		echo '<div class="col-2 text-middle"><h5><u>Reminder ID</u></h5></div>';
-		echo '<div class="col-1 text-left"><h5><u>Date</u></h5></div>';
-		echo '<div class="col-1 text-middle"><h5><u>Time</u></h5></div>';		
+		echo '<div class="col-2 text-left"><h5><u>Date</u></h5></div>';
+		//echo '<div class="col-1 text-middle"><h5><u>Time</u></h5></div>';		
 		echo '<div class="col-2 text-middle"><h5><u>Reminder Title</u></h5></div>';
 		echo '<div class="col-3 text-middle"><h5><u>Description</u></h5></div>';
 		echo '</div>';
@@ -25,8 +25,8 @@
 		foreach ($results as $row) {
 			echo '<div class="row">';
 			echo '<div class="col-2 text-middle">'.$row['Reminder_ID'].'</div>';
-			echo '<div class="col-1 text-middle">'.$row['Date'].'</div>';
-			echo '<div class="col-1 text-middle">'.$row['Time'].'</div>';
+			echo '<div class="col-2 text-middle">'.$row['Date'].'</div>';
+			//echo '<div class="col-1 text-middle">'.$row['Time'].'</div>';
 			echo '<div class="col-2 text-middle">'.$row['Reminder_title'].'</div>';
 			echo '<div class="col-3 text-middle">'.$row['Description'].'</div>';
 			echo '</div>';
