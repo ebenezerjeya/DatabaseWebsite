@@ -64,30 +64,39 @@ if ($count > 0) {
         $lastname = $row['Last_Name'];
         $email = $row['Email'];
     }
-
-
 } else {
     header('Location: Form.php');
 }
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if(isset($_POST['updateConfirm'])) {
-            include_once("db.php");
-            $td = $_POST['date'];
-            $td = date('Y-m-d', strtotime($td));
-            $tc=$_POST['time'];
-            $tc=date('G:i:s', strtotime($tc));
-            $query = "UPDATE reminder SET Reminder_title = ?, Description = ?, `Date` = ?, `Time`=? WHERE Reminder_ID = ?";
-            $stmt = $db->prepare($query);
-            $stmt->bindParam(1, $_POST['reminderTitle'], PDO::PARAM_STR);
-            $stmt->bindParam(2, $_POST['reminderDescription'], PDO::PARAM_STR);
-            $stmt->bindParam(3, $td, PDO::PARAM_STR);
-            $stmt->bindParam(4, $reminder, PDO::PARAM_INT);
-            $stmt->bindParam(5, $tc, PDO::PARAM_STR);
-            $stmt->execute();
-            header('Location: View.php');
+    if(isset($_POST['updateConfirm'])) {
+        include_once("db.php");
+        $td = $_POST['date'];
+        $td = date('Y-m-d', strtotime($td));
+
+        if(strlen(trim($_POST['reminderTitle'])) == 0){
+            $title=$title;
         }
+        else{
+            $title=$_REQUEST['reminderTitle'];
+        }
+        if(strlen(trim($_POST['reminderDescription'])) == 0){
+            $description=$description;
+        }
+        else{
+            $description=$_REQUEST['reminderDescription'];
+        }
+
+        $query = "UPDATE reminder SET Reminder_title = ?, Description = ?, `Date` = ? WHERE Reminder_ID = ?";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(1, $title, PDO::PARAM_STR);
+        $stmt->bindParam(2, $description, PDO::PARAM_STR);
+        $stmt->bindParam(3, $td, PDO::PARAM_STR);
+        $stmt->bindParam(4, $reminder, PDO::PARAM_INT);
+        $stmt->execute();
+        header('Location: View.php');
+    }
 }
-?>;
+?>
 <div id="sidebar">
     <!-- Main navigation items -->
     <nav class="navbar navbar-dark">
@@ -161,12 +170,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 <div class="form-group">
                                     <label for="reminderDescription">Description</label>
                                     <textarea class="form-control" id="reminderDescription" name="reminderDescription" placeholder=" <?php echo $description?>" rows="3" maxlength="100"></textarea>
-                                </div>
-
-                                <div class ="form-group">
-                                    <label for="time">Time</label>
-                                    <input type="text" class="form-control" placeholder=" <?php echo $time?>" name="time">
-                                    <small id="timehelp" class="form-text text-muted">Enter HH:MM. This uses 24-Hour format</small>
                                 </div>
 
                                 <div class="form-group">
