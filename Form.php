@@ -80,7 +80,7 @@
             header('Location: View.php');
         }
     }
-    ?>;
+    ?>
     <div id="sidebar">
         <!-- Main navigation items -->
         <nav class="navbar navbar-dark">
