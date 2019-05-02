@@ -17,11 +17,11 @@
 		echo '<div class="row">';
 		echo '<div class="col-2 text-middle"><h5><u>Reminder ID</u></h5></div>';
 		echo '<div class="col-2 text-left"><h5><u>Date</u></h5></div>';
-		//echo '<div class="col-1 text-middle"><h5><u>Time</u></h5></div>';		
+		//echo '<div class="col-1 text-middle"><h5><u>Time</u></h5></div>';
 		echo '<div class="col-2 text-middle"><h5><u>Reminder Title</u></h5></div>';
 		echo '<div class="col-3 text-middle"><h5><u>Description</u></h5></div>';
 		echo '</div>';
-		
+
 		foreach ($results as $row) {
 			echo '<div class="row">';
 			echo '<div class="col-2 text-middle">'.$row['Reminder_ID'].'</div>';
@@ -55,6 +55,8 @@
 		echo "<br>";
 	}
 	else{
-		echo 'No Such ID';
+		$message = "User ID not found";
+		echo "<script type='text/javascript'>alert('$message');</script>";
+		echo '<script type="text/javascript">location.reload(true);</script>';
 	}
 ?>
