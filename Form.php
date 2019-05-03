@@ -7,8 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-        <!-- Main CSS --> 
-        <link rel="stylesheet" href="css/style.css">
+        <!-- Main CSS -->
+        <link rel="stylesheet" href="style.css">
 
         <!-- Font Awesome -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@
     </head>
     <style>
         .button {
-            background-color: #4CAF50;
+            background-color: #2665bf;
             border: none;
             color: white;
             padding: 15px 25px;
@@ -28,7 +28,7 @@
             cursor: pointer;
         }
         .button:hover {
-            background-color: green;
+            background-color: skyblue;
         }
     </style>
     <body>
@@ -85,7 +85,7 @@
             <div id="mainNavbar">
                 <ul>
                     <li class="nav-item">
-                        <button onclick="location.href = 'Home.html';" id="HomeButton" class="button" >Back to Home</button>
+                        <button onclick="location.href = 'home.html';" id="HomeButton" class="button" >Back to Home</button>
                     </li>
                     <br>
                     <li class="nav-item">
@@ -100,7 +100,7 @@
     </div>
         <div id="content">
             <div id="content-wrapper">
-                
+
                 <!-- Jumbtron / Slider -->
                 <div class="jumbotron-wrap">
                     <div class="container-fluid">
@@ -162,14 +162,14 @@
                                         <button type="submit" class="btn btn-primary">Submit</button></form>
 
                                 </fieldset>
-                                
+
 
                             </article>
                         </div>
 
                     </div>
                 </main>
-                
+
 
             </div>
         </div>

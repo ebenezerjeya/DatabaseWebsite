@@ -8,14 +8,14 @@
 
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 
     <!-- Font Awesome -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <style>
     .button {
-        background-color: #4CAF50;
+        background-color: #2665bf;
         border: none;
         color: white;
         padding: 15px 25px;
@@ -24,7 +24,7 @@
         cursor: pointer;
     }
     .button:hover {
-        background-color: green;
+        background-color: skyblue;
     }
 </style>
 <body>
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div id="mainNavbar">
             <ul>
                 <li class="nav-item">
-                    <button onclick="location.href = 'Home.html';" id="HomeButton" class="button" >Back to Home</button>
+                    <button onclick="location.href = 'home.html';" id="HomeButton" class="button" >Back to Home</button>
                 </li>
                 <br>
                 <li class="nav-item">
@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <form action="View.php" method="post">
                             <input type="text" class="form-control" id="User_ID" name="User_ID" placeholder="User ID" maxlength="8">
 
-                            <button id="search" name="search" type="button" class="button">Search</button>
+                            <button onclick="javascript:showDiv();" id="search" name="search" type="button" class="button">Search</button>
                         </form>
                     </div>
                 </aside>
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="container-fluid footer-container">
             <aside class="col-md-3">
-                <div>
+                <div id="tow">
                     <form action="view.php" method="post">
                         <label for="delete">Delete Reminder</label>
                         <input type="text" class="form-control" id="delete" name="delete" placeholder="Reminder ID" maxlength="8">
@@ -153,5 +153,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         });
     });
 </script>
+<script type="text/javascript">
+        function showDiv() {
+            div = document.getElementById('tow');
+            div.style.display = "block";
+        }
+    </script>
 </body>
 </html>
